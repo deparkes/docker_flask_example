@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify, Response
 import json
 import sqlite3 as sqlite
+import sys
+import os
 app = Flask(__name__)
 
 
@@ -62,7 +64,8 @@ def api_filter():
     
 
 if __name__ == '__main__':
-    app.run(debug=True,host='0.0.0.0')
+    #app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT'))
+    app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT'))
     
     
 
