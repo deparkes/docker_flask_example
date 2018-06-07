@@ -87,8 +87,8 @@ def api_echo():
 
 @app.route('/api/add_message', methods=['GET', 'POST'])
 def add_message():
-    """url --header "Content-Type: application/json" -X POST -d "{"""username""":"""xyz""","""password""":"""xyz"""}"  http://127.0.0.1:5000/api/add_message
-    """
+    #url --header "Content-Type: application/json" -X POST -d "{"""username""":"""xyz""","""password""":"""xyz"""}"  http://127.0.0.1:5000/api/add_message
+    
     print (request.is_json)
     content = request.get_json()
     print (content['username'])
