@@ -59,7 +59,38 @@ def api_filter():
     results = cur.execute(query, to_filter).fetchall()
     
     return jsonify(results)
-    
+
+@app.route('/hello')
+def api_hello():
+    if 'name' in request.args:
+        return 'Hello ' + request.args['name']
+    else:
+        return 'Hello John Doe'
+
+
+@app.route('/echo', methods = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'])
+def api_echo():
+    if request.method == 'GET':
+        return "ECHO: GET\n"
+
+    elif request.method == 'POST':
+        return "ECHO: POST\n"
+
+    elif request.method == 'PATCH':
+        return "ECHO: PACTH\n"
+
+    elif request.method == 'PUT':
+        return "ECHO: PUT\n"
+
+    elif request.method == 'DELETE':
+        return "ECHO: DELETE"
+
+@app.route('/api/add_message', methods=['GET', 'POST'])
+def add_message():
+    print (request.is_json)
+    content = request.get_json()
+    print (content['username'])
+    return content['username']
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0')
