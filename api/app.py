@@ -87,12 +87,15 @@ def api_echo():
 
 @app.route('/api/add_message', methods=['GET', 'POST'])
 def add_message():
-    #url --header "Content-Type: application/json" -X POST -d "{"""username""":"""xyz""","""password""":"""xyz"""}"  http://127.0.0.1:5000/api/add_message
+    #url --header "Content-Type: application/json" -X POST -d "{"""age""":"""10""","""password""":"""xyz"""}"  http://127.0.0.1:5000/api/add_message
     
     print (request.is_json)
     content = request.get_json()
-    print (content['username'])
-    return content['username']
+    print (content['age'])
+    if int(content['age'])>20:
+        return "1"
+    else:
+        return "0"
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0')
