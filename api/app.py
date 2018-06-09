@@ -100,41 +100,10 @@ def add_message():
 
 @app.route("/api/v1/resources/books/json", methods=['POST'])
 def api_filter2():
-    content = request.get_json()
-    for book in content['books']:
-        print(book['published'])
-        print(book['author'])
-
-
-        id = book['id']
-        published = book['published']
-        author = book['author']
-        
-        
-        query = "SELECT * FROM books WHERE"
-        to_filter = []
-        
-        if id:
-            query += ' id=? AND'
-            to_filter.append(id)
-        if published:
-            query += ' published=? AND'
-            to_filter.append(published)
-        if author:
-            query += ' author=? AND'
-            to_filter.append(author)
-        if not (id or published or author):
-            return page_not_found(404)
-        
-        query = query[:-4] + ';'
-        
-        conn = sqlite.connect('../data/books.db')
-        conn.row_factory = dict_factory
-        cur = conn.cursor()
-        
-        results = cur.execute(query, to_filter).fetchall()
-        
-    return jsonify(results)
+    
+    content = request.get_json()        
+    return jsonify(content)
+    
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0')
     
