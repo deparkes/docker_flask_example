@@ -60,44 +60,6 @@ def api_filter():
     
     return jsonify(results)
 
-@app.route('/hello')
-def api_hello():
-    if 'name' in request.args:
-        return 'Hello ' + request.args['name']
-    else:
-        return 'Hello John Doe'
-
-
-@app.route('/echo', methods = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'])
-
-def api_echo():
-    if request.method == 'GET':
-        return "ECHO: GET\n"
-
-    elif request.method == 'POST':
-        return "ECHO: POST\n"
-
-    elif request.method == 'PATCH':
-        return "ECHO: PACTH\n"
-
-    elif request.method == 'PUT':
-        return "ECHO: PUT\n"
-
-    elif request.method == 'DELETE':
-        return "ECHO: DELETE"
-
-@app.route('/api/add_message', methods=['GET', 'POST'])
-def add_message():
-    #curl --header "Content-Type: application/json" -X POST -d "{"""age""":"""10""","""password""":"""xyz"""}"  http://127.0.0.1:5000/api/add_message
-    
-    print (request.is_json)
-    content = request.get_json()
-    print (content['age'])
-    if int(content['age'])>20:
-        return "1"
-    else:
-        return "0"
-
 @app.route("/api/v1/resources/books/json", methods=['GET'])
 def api_filter2():
     # curl --header "Content-Type: application/json" -X POST -d ""{"""books""":[{"""id""":null,"""author""":"""Ann Leckie ""","""published""":2014},{"""id""":null,"""author""":"""John Scalzi""","""published""":2013}]}""  http://127.0.0.1:5000/api/v1/resources/books/json
