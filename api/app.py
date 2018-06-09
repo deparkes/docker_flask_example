@@ -134,7 +134,7 @@ def api_filter2():
             conn.row_factory = dict_factory
             cur = conn.cursor()
             
-            results.append(cur.execute(query, to_filter).fetchall())
+            results.append(cur.execute(query, to_filter).fetchall()[0])
         except:
             print(jsonify(book))
 
