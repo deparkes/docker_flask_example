@@ -102,40 +102,43 @@ def add_message():
 def api_filter2():
     # curl --header "Content-Type: application/json" -X POST -d ""{"""id""":null,"""author""":"""Ann Leckie ""","""published""":2014}""  http://127.0.0.1:5000/api/v1/resources/books/json
     # Need to do several escapes (particularly in windows)
-    content = request.get_json()
+    books = request.get_json()
 
    
-    query = "SELECT * FROM books WHERE"
-    to_filter = []
-    
-    try:
-        print('!!!!!')
-        id = content['id']
-        published = content['published']
-        author = content['author']
-        print(content)
-    except:
-        print(jsonify(content))
 
-    if id:
-        query += ' id=? AND'
-        to_filter.append(id)
-    if published:
-        query += ' published=? AND'
-        to_filter.append(published)
-    if author:
-        query += ' author=? AND'
-        to_filter.append(author)
-    if not (id or published or author):
-        return page_not_found(404)
-    
-    query = query[:-4] + ';'
-    
-    conn = sqlite.connect('../data/books.db')
-    conn.row_factory = dict_factory
-    cur = conn.cursor()
-    
-    results = cur.execute(query, to_filter).fetchall()
+    results = []
+    for book in books['books']:
+        query = "SELECT * FROM books WHERE"
+        to_filter = []
+        try:
+            id = book['id']
+            published = book['published']
+            author = book['author']
+            print(book)
+
+            if id:
+                query += ' id=? AND'
+                to_filter.append(id)
+            if published:
+                query += ' published=? AND'
+                to_filter.append(published)
+            if author:
+                query += ' author=? AND'
+                to_filter.append(author)
+            if not (id or published or author):
+                return page_not_found(404)
+            
+            query = query[:-4] + ';'
+            
+            conn = sqlite.connect('../data/books.db')
+            conn.row_factory = dict_factory
+            cur = conn.cursor()
+            
+            results.append(cur.execute(query, to_filter).fetchall())
+        except:
+            print(jsonify(book))
+
+
     
     return jsonify(results)
 
