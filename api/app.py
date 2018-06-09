@@ -68,7 +68,8 @@ def api_hello():
         return 'Hello John Doe'
 
 
-@app.route('/echo', methods = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'])
+@app.route('/echo', methods = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'])
+
 def api_echo():
     if request.method == 'GET':
         return "ECHO: GET\n"
@@ -87,7 +88,7 @@ def api_echo():
 
 @app.route('/api/add_message', methods=['GET', 'POST'])
 def add_message():
-    #url --header "Content-Type: application/json" -X POST -d "{"""age""":"""10""","""password""":"""xyz"""}"  http://127.0.0.1:5000/api/add_message
+    #curl --header "Content-Type: application/json" -X POST -d "{"""age""":"""10""","""password""":"""xyz"""}"  http://127.0.0.1:5000/api/add_message
     
     print (request.is_json)
     content = request.get_json()
@@ -97,6 +98,43 @@ def add_message():
     else:
         return "0"
 
+@app.route("/api/v1/resources/books/json", methods=['POST'])
+def api_filter2():
+    content = request.get_json()
+    for book in content['books']:
+        print(book['published'])
+        print(book['author'])
+
+
+        id = book['id']
+        published = book['published']
+        author = book['author']
+        
+        
+        query = "SELECT * FROM books WHERE"
+        to_filter = []
+        
+        if id:
+            query += ' id=? AND'
+            to_filter.append(id)
+        if published:
+            query += ' published=? AND'
+            to_filter.append(published)
+        if author:
+            query += ' author=? AND'
+            to_filter.append(author)
+        if not (id or published or author):
+            return page_not_found(404)
+        
+        query = query[:-4] + ';'
+        
+        conn = sqlite.connect('../data/books.db')
+        conn.row_factory = dict_factory
+        cur = conn.cursor()
+        
+        results = cur.execute(query, to_filter).fetchall()
+        
+    return jsonify(results)
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0')
     
