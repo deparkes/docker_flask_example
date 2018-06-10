@@ -61,7 +61,7 @@ def api_filter():
     return jsonify(results)
 
 @app.route("/api/v1/resources/books/json", methods=['GET'])
-def api_filter2():
+def api_filter_json():
     # curl --header "Content-Type: application/json" -X POST -d ""{"""books""":[{"""id""":null,"""author""":"""Ann Leckie ""","""published""":2014},{"""id""":null,"""author""":"""John Scalzi""","""published""":2013}]}""  http://127.0.0.1:5000/api/v1/resources/books/json
     # Need to do several escapes (particularly in windows)
     # You can also use a browser add-in such as YARC for chrome or RESTful client for firefox
