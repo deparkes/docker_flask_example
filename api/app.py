@@ -67,33 +67,31 @@ def api_filter_json():
     for book in books['books']:
         query = "SELECT * FROM books WHERE"
         to_filter = []
-        try:
-            id = book['id']
-            published = book['published']
-            author = book['author']
-            print(book)
 
-            if id:
-                query += ' id=? AND'
-                to_filter.append(id)
-            if published:
-                query += ' published=? AND'
-                to_filter.append(published)
-            if author:
-                query += ' author=? AND'
-                to_filter.append(author)
-            if not (id or published or author):
-                return page_not_found(404)
-            
-            query = query[:-4] + ';'
-            
-            conn = sqlite.connect('../data/books.db')
-            conn.row_factory = dict_factory
-            cur = conn.cursor()
-            
-            results.append(cur.execute(query, to_filter).fetchall()[0])
-        except:
-            print(jsonify(book))
+        id = book['id']
+        published = book['published']
+        author = book['author']
+
+        if id:
+            query += ' id=? AND'
+            to_filter.append(id)
+        if published:
+            query += ' published=? AND'
+            to_filter.append(published)
+        if author:
+            query += ' author=? AND'
+            to_filter.append(author)
+        if not (id or published or author):
+            return page_not_found(404)
+
+        query = query[:-4] + ';'
+
+        conn = sqlite.connect('../data/books.db')
+        conn.row_factory = dict_factory
+        cur = conn.cursor()
+
+        results.append(cur.execute(query, to_filter).fetchall()[0])
+
     return jsonify(results)
 
     
