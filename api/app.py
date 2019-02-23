@@ -60,7 +60,7 @@ def api_filter():
     
     return jsonify(results)
 
-@app.route("/api/v1/resources/books/json", methods=['GET'])
+@app.route("/api/v1/resources/books/json", methods=['POST'])
 def api_filter_json():
     books = request.get_json()
     results = []
