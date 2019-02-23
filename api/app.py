@@ -80,8 +80,7 @@ def build_select_books_query(author, id, published, to_filter):
         query += ' author=? AND'
         to_filter.append(author)
     if not (id or published or author):
-        pass
-        # return page_not_found(404)
+        return page_not_found(404)
     query = query[:-4] + ';'
     return query
 
