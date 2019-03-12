@@ -1,5 +1,14 @@
-FROM nginx:1.11.3
-RUN rm /etc/nginx/nginx.conf
-COPY nginx.conf /etc/nginx/
+# Dockerfile-nginx
+
+FROM nginx:latest
+
+# Nginx will listen on this port
+EXPOSE 80
+
+# Remove the default config file that
+# /etc/nginx/nginx.conf includes
 RUN rm /etc/nginx/conf.d/default.conf
-COPY family_recipes.conf /etc/nginx/conf.d/
+
+# We copy the requirements file in order to install
+# Python dependencies
+COPY nginx.conf /etc/nginx/
